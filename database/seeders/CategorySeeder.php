@@ -67,10 +67,16 @@ class CategorySeeder extends Seeder
         ];
 
         collect($categories)
-            ->each(fn ($subcategory, $category) => Category::firstOrCreate(['name' => $category])
+            ->each(fn ($subcategory, $category) => Category::firstOrCreate([
+                'name' => $category,
+                'slug' => str($category)->slug(),
+            ])
                 ->subCategories()
                 ->createMany(
-                collect($subcategory)->map(fn ($sub) => ['name' => $sub])
+                collect($subcategory)->map(fn ($sub) => [
+                    'name' => $sub,
+                    'slug' => str($sub)->slug(),
+                ])
             )
             );
     }

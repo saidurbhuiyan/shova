@@ -13,8 +13,9 @@ class Subcategory extends Model
     /**
      * @var string[]
      */
-    public $fillable = [
+    protected $fillable = [
         'name',
+        'slug',
         'priority'
     ];
 
