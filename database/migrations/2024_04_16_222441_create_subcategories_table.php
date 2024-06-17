@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id');
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->unsignedInteger('priority')->default(0);
             $table->timestamps();
 
