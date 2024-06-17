@@ -5,7 +5,7 @@ import {
     IconChevronDown
 } from '@tabler/icons-react';
 import CarouselImageSlider from "@/Components/CarouselImageSlider.jsx";
-import {usePage} from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
 
 export default function HeroSection() {
     const props = usePage().props
@@ -24,24 +24,24 @@ export default function HeroSection() {
                             </div>
                             {props.categories && props.categories.map((category, index) => (
                                 <div className="border-b border-black" key={index}>
-                                    <a className="flex items-center justify-between py-2 px-4 text-black gap-2" href="#">
+                                    <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('category', category.slug)}>
                                         {category.name}
                                         <div className="flex gap-2 items-center">
                                             <IconStar className="text-gray-500" size={12} />
                                             <IconChevronRight className="text-gray-400" size={24} />
                                         </div>
-                                    </a>
+                                    </Link>
                                 </div>
                             ))}
 
                             <div>
-                                <a className="flex items-center justify-between py-2 px-4 text-black gap-2" href="#">
+                                <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('category')}>
                                     See All Categories
                                     <div className="flex gap-2 items-center">
                                         <IconStar className="text-gray-500" size={12} />
                                         <IconChevronRight className="text-gray-400" size={24} />
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
