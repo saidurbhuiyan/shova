@@ -42,6 +42,7 @@ class HomeController extends Controller
                 'name' => $product->name,
                 'image' => $product->images->first()->image_url ?? null,
                 'category' => $product->category->name,
+                'category_slug' => $product->category->slug,
                 'subcategory' => $product->subcategory->name ?? null,
                 'brand' => $product->brand->name ?? null,
                 'price' => $product->price,

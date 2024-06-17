@@ -1,14 +1,13 @@
 import ProductCard from "@/Pages/Home/ProductCard.jsx";
-import {useEffect, useState} from "react";
 import {useMaxOnScreenSize} from "@/helper.js";
 
-export  default function Product({products,  ...props}) {
+export  default function Product({products, productResize = true,  ...props}) {
 
-    const maxAllowedSize = useMaxOnScreenSize({
+    const maxAllowedSize = productResize ? useMaxOnScreenSize({
         sm:Math.floor(products.length/2)*2,//sm
         md:Math.floor(products.length/3)*3,//md
         lg: Math.floor(products.length/4)*4//lg
-    }, products.length);
+    }, products.length) : products.length;
 
     const hasTitle = () => {
         if (typeof props.title === 'string' || typeof props.subtitle === 'string') {

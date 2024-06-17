@@ -54,7 +54,7 @@ export const useMaxOnScreenSize = (maxSizes, defaultSize) => {
             const screenWidth = window.innerWidth;
             setMaxSize(defaultSize);
             Object.entries(defaultScreens).forEach(([ key, screen]) => {
-                if (screenWidth <= screen) {
+                if (screenWidth <= screen && typeof maxSizes[key] !== "undefined") {
                     setMaxSize(maxSizes[key]);
                 }
             });
@@ -68,3 +68,79 @@ export const useMaxOnScreenSize = (maxSizes, defaultSize) => {
 
     return maxSize;
 };
+
+/**
+ * Dispatch an event to notify other components of the cart update
+ */
+function dispatchCartChangeEvent() {
+    window.dispatchEvent(new Event('cartChange'));
+}
+
+/**
+ * get the all cart products
+ * @returns {{quantity: *, id: *}[]}
+ */
+export const getCartContents = () => {
+
+    return JSON.parse(localStorage.getItem('cart')) || [];
+}
+
+/**
+ * checking if product is already on cart or not
+ * @param productId
+ * @returns {boolean}
+ */
+export const hasOnCart = (productId) => {
+    let cart = getCartContents();
+    let productIndex = cart.findIndex(item => item.id === productId);
+    return productIndex !== -1
+}
+
+/**
+ * add to cart by product id in localstorage
+ * @param productId
+ */
+export const addToCart = (productId) => {
+
+    let cart = getCartContents();
+    let productIndex = cart.findIndex(item => item.id === productId);
+
+    if (productIndex !== -1) {
+        cart[productIndex].quantity += 1;
+    } else {
+        cart.push({ id: productId, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    dispatchCartChangeEvent()
+}
+
+/**
+ * remove from cart by product id in localstorage
+ * @param productId
+ */
+export const removeFromCart = (productId = null)=> {
+
+    if (!productId){
+        localStorage.setItem('cart', JSON.stringify([]))
+
+        dispatchCartChangeEvent()
+        return;
+    }
+
+    let cart = getCartContents();
+    let productIndex = cart.findIndex(item => item.id === productId);
+
+    if (productIndex !== -1) {
+        if (cart[productIndex].quantity > 1) {
+            cart[productIndex].quantity -= 1;
+        } else {
+            cart.splice(productIndex, 1);
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        dispatchCartChangeEvent()
+    }
+}

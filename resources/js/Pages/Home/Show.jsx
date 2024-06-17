@@ -11,7 +11,7 @@ export default function Show({ auth }) {
     const props = usePage().props
     return (
         <DefaultLayout auth={auth}>
-            <Head title="Show"/>
+            <Head title="Home"/>
 
             <HeroSection/>
 

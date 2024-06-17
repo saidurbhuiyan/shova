@@ -1,4 +1,4 @@
-import {image} from "@/helper.js";
+import {addToCart, getCartContents, hasOnCart, image} from "@/helper.js";
 import {Link, usePage} from "@inertiajs/react";
 
 export default function ProductCard({ hasOffer=false, isHidden=false, product = null }) {
@@ -9,7 +9,7 @@ export default function ProductCard({ hasOffer=false, isHidden=false, product = 
                 <div className="absolute top-0 left-0 right-0 ">
                 <div
                     className="border border-gray-300/80 border-t-0 rounded-ee-md border-l-0 absolute top-0 left-0">
-                    <Link className="text-xs text-black py-1 px-4 " href="#">{product?.subcategory}</Link>
+                    <Link className="text-xs text-black py-1 px-4 " href={route('category', product?.category_slug)}>{product?.category}</Link>
                 </div>
                 <div className="p-1 text-right">
                     <Link href="#">
@@ -70,15 +70,21 @@ export default function ProductCard({ hasOffer=false, isHidden=false, product = 
                     </p>
                 </div>
             </div>
-            <div className="w-full mt-4 flex justify-between">
-                <Link
-                    className="bg-black w-full text-md font-semibold text-white text-center justify-center h-10 flex items-center"
-                    href="#">Add to Cart</Link>
-                <Link
-                    className="bg-white w-full border-[1.5px] border-black text-md font-semibold text-black text-center justify-center h-10 flex items-center"
-                    href="#">Buy Now</Link>
+                <div className="w-full mt-4 flex justify-between">
+                    { hasOnCart(product?.id) ?
+                    <button
+                        className="bg-black w-full text-md font-semibold text-white text-center justify-center h-10 flex items-center opacity-80 cursor-not-allowed"
+                        disabled={true}>Added</button>
+                :
+                    <button
+                        className="bg-black w-full text-md font-semibold text-white text-center justify-center h-10 flex items-center"
+                        onClick={() => addToCart(product?.id)}>{hasOnCart(product?.id) ? 'Added' : 'Add to Cart'}</button>
+                }
+                    <Link
+                        className="bg-white w-full border-[1.5px] border-black text-md font-semibold text-black text-center justify-center h-10 flex items-center"
+                        href="#">Buy Now</Link>
 
-            </div>
+                </div>
             </div> : <> </>}
         </div>
     );
