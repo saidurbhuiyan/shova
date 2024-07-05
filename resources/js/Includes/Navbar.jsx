@@ -2,16 +2,22 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import SelectInput from '@/Components/SelectInput';
 import TextInput from '@/Components/TextInput';
 import { Link } from '@inertiajs/react';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
-import {getCartContents, removeFromCart} from "@/helper.js"
+import {getCartContents} from "@/helper.js"
+import {getLikeContents} from "@/ProductLike.js";
 
 export default function Navbar({ auth }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [cartLength, setCartLength] = useState(getCartContents().length)
+    const [likeLength, setLikeLength] = useState(getLikeContents().length)
 
     window.addEventListener('cartChange', function(event) {
         setCartLength(getCartContents().length)
+    });
+
+    window.addEventListener('likeChange', function(event) {
+        setLikeLength(getLikeContents().length)
     });
 
     return (
@@ -128,7 +134,7 @@ export default function Navbar({ auth }) {
                                           d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
                                 </svg>
                                 <p className="absolute top-2 right-0 w-3 h-3 sm:h-3.5 sm:w-3.5 2xl:h-4 2xl:w-4 bg-gray-800 rounded-full flex items-center justify-center text-[0.50rem] sm:text-[0.55rem] lg:text-[0.60rem] 2xl:text-[0.65rem] text-white">
-                                    0
+                                    {likeLength}
                                 </p>
                             </Link>
                         </div>

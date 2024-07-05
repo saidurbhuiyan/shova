@@ -22,13 +22,14 @@ class ProductFactory extends Factory
     {
         $price = fake()->numberBetween(10, 1000);
         $category = Category::all()->random();
-
+        $title = fake()->sentence();
         return [
             'user_id' => User::all()->random()->id,
             'category_id' => $category->id,
             'subcategory_id' => $category->subcategories->random()->id,
             'brand_id' => Brand::all()->random()->id,
-            'name' => fake()->name(),
+            'title' => $title,
+            'slug' => str_replace(' ', '-', $title),
             'description' => fake()->text(),
             'quantity' => fake()->numberBetween(1, 100),
             'price' => fake()->boolean() ? $price : fake()->numberBetween($price, $price * 2),
