@@ -20,6 +20,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@tabler/icons-react": "^3.2.0"
+        "@tabler/icons-react": "^3.2.0",
+        "prop-types": "^15.8.1"
     }
 }

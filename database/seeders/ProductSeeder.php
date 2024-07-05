@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $product = Product::factory(100)
+        $product = Product::factory(20000)
             ->create();
 
         $variantType = collect(['color', 'size'])
@@ -45,14 +45,16 @@ class ProductSeeder extends Seeder
                     'is_primary' => $key === 0,
                 ])
             );
-
-            $product->reviews()->createMany(
-                collect(['good product', 'bad product', 'average product', 'excellent product', 'terrible product', 'awesome product'])->map(fn ($comment) => [
-                    'comment' => $comment,
-                    'rating' => random_int(1, 5),
-                    'user_id' => User::all()->random()->id,
-                ])
-            );
+            $review = random_int(0, 5);
+            if ($review > 0) {
+                $product->reviews()->createMany(
+                    collect(['good product', 'bad product', 'average product', 'excellent product', 'terrible product', 'awesome product'])->map(fn ($comment) => [
+                        'comment' => $comment,
+                        'rating' => $review,
+                        'user_id' => User::all()->random()->id,
+                    ])
+                );
+            }
         });
     }
 }

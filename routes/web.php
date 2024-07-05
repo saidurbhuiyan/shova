@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartedProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductViewController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +14,13 @@ use Inertia\Inertia;
 Route::get('/', HomeController::class)->name('home');
 //categories
 Route::get('/category/{slug?}', CategoryController::class)->name('category');
+
+//cart
+Route::get('/cart', CartController::class)->name('cart');
+Route::post('/carted-products', CartedProductController::class)->name('carted-products.fetch');
+
+//product
+Route::get('/product/{slug}', ProductViewController::class)->name('product.view');
 
 Route::get('/dashboard', static function () {
     return Inertia::render('Dashboard');

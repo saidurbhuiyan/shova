@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 
+
 /**
  * Capitalize the first letter of each word in a string
  * @param str
@@ -144,3 +145,21 @@ export const removeFromCart = (productId = null)=> {
         dispatchCartChangeEvent()
     }
 }
+
+
+export const cartedProductsData = async () => {
+    const cartContents = getCartContents();
+    const ids = cartContents.map(item => item.id);
+    let productData = {}
+    await axios.post(route('carted-products.fetch'), {product_ids: ids})
+        .then(response => {
+            // Handle the JSON data received in the response
+            productData = response.data;
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+
+    return productData
+};

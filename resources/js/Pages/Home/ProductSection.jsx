@@ -1,5 +1,6 @@
 import ProductCard from "@/Pages/Home/ProductCard.jsx";
 import {useMaxOnScreenSize} from "@/helper.js";
+import {Link} from "@inertiajs/react";
 
 export  default function Product({products, productResize = true,  ...props}) {
 
@@ -28,6 +29,12 @@ export  default function Product({products, productResize = true,  ...props}) {
                      {products.slice(0, maxAllowedSize).map((value, index) => <ProductCard key={index} product={value}/>)}
                  </div>
              </div>
+            {typeof props.moreProductsByCategory === 'string' &&
+            <div className="flex justify-end">
+                <Link href={route('category', props.moreProductsByCategory)}
+                      className="text-[#8e8e8e] text-base">View more ></Link>
+            </div>
+            }
      </section>
  )
 }

@@ -4,7 +4,7 @@ import {Link} from "@inertiajs/react";
 
 export default function Footer() {
     return (
-        <footer className="pt-[25px] pb-12 lg:mt-[278px] mt-[100px] border-t border-gray-400">
+        <footer className="pt-[25px] pb-12 lg:mt-[200px] mt-[80px] border-t border-gray-400">
             <div className="w-full max-w-[1440px]">
                 <div
                     className="flex justify-between flex-nowrap">

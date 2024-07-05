@@ -1,90 +1,142 @@
-import {addToCart, getCartContents, hasOnCart, image} from "@/helper.js";
+import {getCartContents, image} from "@/helper.js";
 import {Link, usePage} from "@inertiajs/react";
+import {addToLike, hasOnLike, removeFromLike} from "@/ProductLike.js";
+import {useState} from "react";
+import {router} from "@inertiajs/core";
 
-export default function ProductCard({ hasOffer=false, isHidden=false, product = null }) {
+export default function ProductCard({ product = null }) {
+
+    const [hasLike, setHasLike] = useState(hasOnLike(product?.sku_id))
+
+    window.addEventListener('likeChange', function(event) {
+        setHasLike(hasOnLike(product?.sku_id))
+    });
+
+    const hasOffer = product?.sale_price < product?.price
 
     return (
-        <div className="max-w-sm border border-gray-300/80 bg-white rounded-t overflow-hidden relative">
+        <div className="max-w-sm border border-gray-300/80 bg-white rounded-t overflow-hidden relative hover:shadow-md">
             {product ? <div>
-                <div className="absolute top-0 left-0 right-0 ">
-                <div
-                    className="border border-gray-300/80 border-t-0 rounded-ee-md border-l-0 absolute top-0 left-0">
-                    <Link className="text-xs text-black py-1 px-4 " href={route('category', product?.category_slug)}>{product?.category}</Link>
-                </div>
-                <div className="p-1 text-right">
-                    <Link href="#">
-                        <svg className="ml-auto" width="18" height="18" viewBox="-1 0 26 22" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M22.0622 2.29627C20.8055 1.03954 19.1417 0.352666 17.366 0.352666C15.5903 0.352666 13.9214 1.04463 12.6647 2.30136L12.0084 2.95771L11.3418 2.29118C10.0851 1.03445 8.41117 0.337402 6.63547 0.337402C4.86486 0.337402 3.196 1.02937 1.94436 2.28101C0.687636 3.53773 -0.00432769 5.20659 0.000760282 6.98229C0.000760282 8.75799 0.697812 10.4218 1.95454 11.6785L11.5097 21.2337C11.642 21.366 11.8201 21.4372 11.9931 21.4372C12.1661 21.4372 12.3442 21.3711 12.4765 21.2388L22.052 11.6988C23.3087 10.4421 24.0007 8.77325 24.0007 6.99755C24.0058 5.22185 23.3189 3.553 22.0622 2.29627ZM21.0853 10.727L11.9931 19.7836L2.92125 10.7118C1.92401 9.71453 1.37451 8.39166 1.37451 6.98229C1.37451 5.57292 1.91892 4.25005 2.91617 3.2579C3.90832 2.26574 5.23119 1.71624 6.63547 1.71624C8.04484 1.71624 9.3728 2.26574 10.37 3.26298L11.5199 4.41286C11.7896 4.68253 12.2221 4.68253 12.4917 4.41286L13.6314 3.27316C14.6287 2.27592 15.9566 1.72642 17.3609 1.72642C18.7652 1.72642 20.0881 2.27592 21.0853 3.26807C22.0825 4.26531 22.627 5.58818 22.627 6.99755C22.632 8.40692 22.0825 9.72979 21.0853 10.727Z"
-                                fill="black" stroke="black" strokeWidth="1"/>
-                        </svg>
-                    </Link>
-                </div>
-            </div>
-            {!hasOffer || <div className="absolute top-12 right-0">
-                <div className="bg-lime-300 h-[82px] w-20 xl:w-[88px] 2xl:w-[91px]">
-                    <div className="flex flex-col h-full">
-                        <div className="flex-grow flex items-center">
-                            <div className="text-center align-middle w-full font-extrabold">
-                                <div>
-                                    {product?.offer_percentage}%
-                                </div>
-                                <div className="uppercase">OFF</div>
-                            </div>
-                        </div>
+                <Link
+                    href={route('product.view', {
+                        slug: product?.slug ?? product?.hash_id,
+                    })}
+                >
+                    <div className="relative p-2">
+                    <div className="absolute top-0 left-0 right-0">
                         <div
-                            className="relative h-5 border-t border-slate-400 font-extrabold text-center text-xs uppercase">
-                            <span className="block capitalize">{product?.price} {usePage().props.currency_name}</span>
-                            <span
-                                className="absolute left-0 top-2 right-0 h-[1px] bg-black transform -translate-y-1/2"></span>
+                            className="border border-gray-300/80 border-t-0 rounded-ee-md border-l-0 absolute top-0 left-0">
+                            <button className="text-xs text-black py-1 px-2"
+                                    onClick={function (e) {
+                                        e.preventDefault();
+                                        router.visit(route('category', product?.category_slug))
+                                    }}>{product?.category}</button>
+                        </div>
+                        <div className="p-1 text-right">
+                            {hasLike ?
+                                <button
+                                    onClick={function (e) {
+                                        e.preventDefault();
+                                        removeFromLike(product?.sku_id)
+                                    }}>
+                                    <svg className="ml-auto" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                         viewBox="0 0 24 24"
+                                         fill="#FF6767">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path
+                                            d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z"/>
+                                    </svg>
+                                </button>
+                                :
+                                <button
+                                    onClick={function (e) {
+                                        e.preventDefault();
+                                        addToLike(product?.sku_id)
+                                    }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round"
+                                         className="ml-auto">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path
+                                            d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/>
+                                    </svg>
+                                </button>
+                            }
                         </div>
                     </div>
+                    {hasOffer && <div className="absolute top-12 left-0">
+                        <div className="bg-[#0052b2] text-white px-2 py-1">
+                            <div className="flex flex-col h-full">
+                                <div className="flex-grow flex items-center">
+                                    <div className="text-xs align-middle w-full font-extrabold">
+                                        <div>
+                                            {product?.offer_percentage}%
+                                        </div>
+                                        <div className="uppercase">OFF</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                </div>
-            </div> }
+                        </div>
+                    </div>}
 
-            <div className="p-2 mb-12">
-                <img className="m-auto" src={image('products/product-1.png')} alt="images"/>
-            </div>
-            <div className="absolute bottom-12 left-0 right-0">
-                <div className="bg-white/50 relative z-10 px-2 bg-opacity-2">
-                    <h2 className={"text-md text-center font-extrabold capitalize" + (hasOffer && " text-green-600")}>{product?.sale_price} {usePage().props.currency_name}</h2>
-                    <div className="pt-0.2">
-                        <ul className="flex justify-center">
-                            {[...Array(5)].map((_, index) => <li key={index}>
-                                <svg className={index < product?.rating ? 'text-gray-900' : 'text-gray-400'} width="12" height="12" viewBox="0 0 15 15" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.86875 14.25L4.0875 8.98125L0 5.4375L5.4 4.96875L7.5 0L9.6 4.96875L15 5.4375L10.9125 8.98125L12.1312 14.25L7.5 11.4562L2.86875 14.25Z"
-                                        fill="currentColor"/>
-                                </svg>
-                            </li>)}
-                        </ul>
+                    <div>
+                        <img className="m-auto" src={product?.image} alt={product?.title}/>
                     </div>
-                    <p className="text-xs text-center text-black">{product?.reviews} Reviews</p>
-                </div>
-                <div className="px-5 pt-2">
-                    <p className="text-black text-sm text-center">
-                        {product?.name}
-                    </p>
-                </div>
-            </div>
-                <div className="w-full mt-4 flex justify-between">
-                    { hasOnCart(product?.id) ?
-                    <button
-                        className="bg-black w-full text-md font-semibold text-white text-center justify-center h-10 flex items-center opacity-80 cursor-not-allowed"
-                        disabled={true}>Added</button>
-                :
-                    <button
-                        className="bg-black w-full text-md font-semibold text-white text-center justify-center h-10 flex items-center"
-                        onClick={() => addToCart(product?.id)}>{hasOnCart(product?.id) ? 'Added' : 'Add to Cart'}</button>
-                }
-                    <Link
-                        className="bg-white w-full border-[1.5px] border-black text-md font-semibold text-black text-center justify-center h-10 flex items-center"
-                        href="#">Buy Now</Link>
+                        <div className="relative">
+                    <div className="absolute -bottom-3 left-0 right-0">
+                        <div className="z-10 p-2 bg-opacity-2">
+                                <ul className="flex justify-center">
+                                    <li className="w-full m-auto">
+                                        <div className="bg-[#f1f1f1] p-[0.5px]"></div>
+                                    </li>
+                                    {[...Array(product?.rating <= 0 ? 1 : 5)].map((_, index) => <li key={index}>
+                                            {index < product?.rating ?
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     fill="currentColor"
+                                                     className="size-[18px] text-[#EEC800]">
+                                                    <path fillRule="evenodd"
+                                                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                                                          clipRule="evenodd"/>
+                                                </svg>
+                                                :
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     strokeWidth="1.5" stroke="currentColor"
+                                                     className="size-[18px] text-[#EEC800]">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                          d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                                                </svg>
 
-                </div>
+                                            }
+                                        </li>
+                                    )}
+                                    <li className="w-full m-auto">
+                                        <div className="bg-[#f1f1f1] p-[0.5px]"></div>
+                                    </li>
+                                </ul>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="px-4">
+                        <p className="text-black text-base pt-2">
+                            {product?.title}
+                        </p>
+                        <div className="flex">
+                            <div className={"text-lg font-extrabold capitalize pb-2" + (hasOffer && " text-[#0052b2]")}>{product?.sale_price} {usePage().props.currency_name}</div>
+                            {hasOffer && <div className="relative ml-[10px] pb-2 flex items-center">
+                                <span
+                                    className="text-base capitalize text-[#3a3636]">{product?.price} {usePage().props.currency_name}</span>
+                                <span
+                                    className="absolute left-0 top-3.5 right-0 h-[1px] bg-[#3a3636] transform -translate-y-1/2"></span>
+                            </div>
+                            }
+                        </div>
+
+                    </div>
+                    </div>
+                </Link>
             </div> : <> </>}
         </div>
     );

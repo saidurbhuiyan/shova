@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->foreignId('brand_id');
             $table->string('subcategory_id');
-            $table->string('name');
+            $table->string('title')->unique();
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('price');
