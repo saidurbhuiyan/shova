@@ -69,22 +69,7 @@ class HomeController extends Controller
         ->get();
 
         return $products
-            ->map(fn($product) => (object)[
-            'sku_id' => $product->id,
-            'hash_id' => (new HashIdService)->encode($product->id),
-            'title' => $product->title,
-            'slug' => $product->slug,
-            'image' => $product->images->first()->image_url ?? null,
-            'category' => $product->category->name,
-            'category_slug' => $product->category->slug,
-            'subcategory' => $product->subcategory->name ?? null,
-            'brand' => $product->brand->name ?? null,
-            'price' => $product->price,
-            'sale_price' => $product->sale_price,
-            'offer_percentage' => $product->offer_percentage,
-            'rating' => round($product->reviews->avg('rating') ?? 0),
-            'reviews' => $product->reviews->count() ?? 0,
-        ]);
+            ->map(fn($product) => app(Product::class)->mappedProduct($product));
 
     }
 }

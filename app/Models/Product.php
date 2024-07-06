@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\HashIdService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -131,6 +132,39 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    /**
+     * Get the mapped product collection to be used in the view.
+     * @param Product $product
+     * @return object
+     */
+    public function mappedProduct(Product $product) : object
+    {
+        return (object)[
+            'sku_id' => $product->id,
+            'hash_id' => (new HashIdService)->encode($product->id),
+            'title' => $product->title,
+            'slug' => $product->slug,
+            'image' => $product->images
+                    ->filter(fn($image) => $image->is_primary === true)
+                    ->first()->image_url ?? null,
+            'images' => $product->images
+                    ->sortByDesc('is_primary')
+                    ->take(4)
+                    ->pluck('image_url')
+                    ->toArray() ?? [],
+            'is_stoked' => $product->is_stocked,
+            'category' => $product->category->name,
+            'category_slug' => $product->category->slug,
+            'subcategory' => $product->subcategory->name ?? null,
+            'brand' => $product->brand->name ?? null,
+            'price' => $product->price,
+            'sale_price' => $product->sale_price,
+            'offer_percentage' => $product->offer_percentage,
+            'rating' => round($product->reviews->avg('rating') ?? 0),
+            'reviews' => $product->reviews->count() ?? 0,
+        ];
     }
 
 }
