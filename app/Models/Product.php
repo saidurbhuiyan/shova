@@ -18,14 +18,23 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-       'name',
+       'title',
        'slug',
+       'sku',
        'description',
+       'short_description',
+       'specification',
        'quantity',
-       'price',
-       'sale_price',
+       'original_price',
+       'selling_price',
        'is_stocked',
        'is_visible',
+       'is_trending',
+       'is_featured',
+       'meta_title',
+       'meta_keyword',
+       'meta_description',
+       'total_sales'
     ];
 
 
@@ -37,6 +46,8 @@ class Product extends Model
     protected $casts = [
         'is_stocked' => 'boolean',
         'is_visible' => 'boolean',
+        'is_trending' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
 
@@ -45,7 +56,9 @@ class Product extends Model
      *
      * @var array
      */
-    protected $appends = ['offer_percentage'];
+    protected $appends = [
+        'offer_percentage'
+    ];
 
 
     /**
@@ -141,29 +154,54 @@ class Product extends Model
      */
     public function mappedProduct(Product $product) : object
     {
+
         return (object)[
             'sku_id' => $product->id,
             'hash_id' => (new HashIdService)->encode($product->id),
             'title' => $product->title,
             'slug' => $product->slug,
-            'image' => $product->images
+            'description' => $product->description,
+            'short_description' => $product->short_description,
+            'specification' => $product->specification,
+            'image' => !$product->relationLoaded('images') ? null : $product->images
                     ->filter(fn($image) => $image->is_primary === true)
-                    ->first()->image_url ?? null,
-            'images' => $product->images
+                    ->first()?->only(['image_url', 'color_name']) ?? [],
+            'images' => !$product->relationLoaded('images') ? null : $product?->images
                     ->sortByDesc('is_primary')
-                    ->take(4)
-                    ->pluck('image_url')
-                    ->toArray() ?? [],
-            'is_stoked' => $product->is_stocked,
+                    ->unique('color_name')
+                    ->map(fn($image) => [
+                        'image_url' => $image->image_url,
+                        'color_name' => strtolower($image->color_name)
+                    ])
+                    ->values() ?? [],
+            'sku' => $product->sku,
+            'is_stocked' => $product->is_stocked,
             'category' => $product->category->name,
             'category_slug' => $product->category->slug,
             'subcategory' => $product->subcategory->name ?? null,
             'brand' => $product->brand->name ?? null,
-            'price' => $product->price,
-            'sale_price' => $product->sale_price,
+            'original_price' => $product->original_price,
+            'selling_price' => $product->selling_price,
             'offer_percentage' => $product->offer_percentage,
             'rating' => round($product->reviews->avg('rating') ?? 0),
             'reviews' => $product->reviews->count() ?? 0,
+            'variants' => !$product->relationLoaded('variants') ? null : $product?->variants?->map(fn($variant) => [
+                'id' => $variant->id,
+                'image_url' => $variant->image_url,
+                'original_price' => $variant->original_price,
+                'selling_price' => $variant->selling_price,
+                'quantity' => $variant->quantity,
+                'sku' => $variant->sku,
+                'total_sales' => $variant->total_sales,
+                'available_quantity' => $variant->quantity > $variant->total_sales ? $variant->quantity - $variant->total_sales : 0,
+                'is_stocked' => $variant->is_stocked,
+                'attributes' => !$variant->relationLoaded('productAttributeValues') ? null : $variant->productAttributeValues?->map(fn($attribute) => [
+                    'id' => $attribute->id,
+                    'value' => strtolower($attribute->value),
+                    'name' => strtolower($attribute->productAttribute?->name),
+                    'image_url' => $attribute->pivot?->image_url
+                ])
+            ])
         ];
     }
 

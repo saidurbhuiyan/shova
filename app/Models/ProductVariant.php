@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProductVariant extends Model
 {
     use HasFactory;
-
-     /**
-     * The table associated with the model.
-     * 
-     * @var string
-     */
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -23,16 +19,30 @@ class ProductVariant extends Model
      * @var array
      */
     protected $fillable = [
-       'variant_type',
-       'name',
-        'quantity',
+       'product_id',
+       'quantity',
+       'original_price',
+       'selling_price',
+       'sku',
+       'is_visible',
+       'is_stocked',
+       'total_sales',
     ];
 
+
     /**
-     * Get the product that owns the variant.
+     * @return BelongsTo
      */
-    public function product() : BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+
+    public function productAttributeValues(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductAttributeValue::class, ProductVariantAttribute::class, 'variant_id', 'attribute_value_id')
+            ->withPivot('image_path')
+            ->with('productAttribute');
     }
 }

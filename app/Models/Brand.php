@@ -13,5 +13,17 @@ class Brand extends Model
      * The attributes that are mass assignable.
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'is_visible',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     * @var array
+     */
+    protected $casts = [
+        'is_visible' => 'boolean',
+    ];
 }

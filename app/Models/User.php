@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\HasProfilePhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +15,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use HasRoles;
+    use HasProfilePhoto;
 
     /**
      * The attributes that are mass assignable.
@@ -46,15 +49,19 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
+    protected $casts = [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'phone_verified_at' => 'datetime',
             'date_of_birth' => 'date',
         ];
-    }
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['profile_photo_url'];
 
     /**
      * Get the orders for the user.
@@ -74,5 +81,13 @@ class User extends Authenticatable
     public function addresses() : HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function productReview(): HasOne
+    {
+        return $this->hasOne(ProductReview::class);
     }
 }

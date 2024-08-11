@@ -16,6 +16,8 @@ class ProductReview extends Model
      * @var array
      */
     protected $fillable = [
+        'product_id',
+        'user_id',
         'rating',
         'comment',
     ];
