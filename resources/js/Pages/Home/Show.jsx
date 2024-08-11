@@ -27,8 +27,6 @@ export default function Show({ auth }) {
             <ProductSection products={props.secondBannerProduct}
                             moreProductsByCategory={props.bannerProductCategoriesSlug.secondBannerProduct} />
 
-            <Footer/>
-
 
         </DefaultLayout>
     );

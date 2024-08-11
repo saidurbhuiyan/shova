@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef } from 'react';
-import { uppercase } from '@/helper';
+import { uppercase } from '@/helper.ts';
 
 export default forwardRef(function SelectInput({ optionsData = {}, defaultOption = null, className = '', newClassName = null, isFocused = false, ...props }, ref) {
     const input = ref ? ref : useRef();

@@ -1,4 +1,4 @@
-import { image } from "../helper";
+import { image } from "../helper.ts";
 import {Link} from "@inertiajs/react";
 
 export default function ApplicationLogo(props) {

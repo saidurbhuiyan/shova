@@ -1,4 +1,4 @@
-import {image} from "@/helper.js";
+import {image} from "@/helper.ts";
 
 export default function BannerImageSection({imagePath, imageName = null}) {
     return (

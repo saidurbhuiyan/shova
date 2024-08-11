@@ -4,9 +4,10 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartedProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductReviewsController;
 use App\Http\Controllers\ProductViewController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\RelatedProductOnCategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,7 +22,11 @@ Route::post('/carted-products', CartedProductController::class)->name('carted-pr
 
 //product
 Route::get('/product/{slug}', ProductViewController::class)->name('product.view');
+Route::get('/product/reviews/{productId}', [ProductReviewsController::class, 'show'])->name('product.reviews.show');
+Route::post('/product/reviews/{productId}', [ProductReviewsController::class, 'store'])->name('product.reviews.store');
+Route::get('/product/related/{categorySlug}/{sellingPrice}', RelatedProductOnCategoryController::class)->name('product.related');
 
+//dashboard
 Route::get('/dashboard', static function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
