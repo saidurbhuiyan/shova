@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Services\HashIdService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
@@ -19,11 +20,11 @@ class HomeController extends Controller
     public function __invoke(Request $request) : Response
     {
         // Fetch all relevant products
-        $latestProduct = $this->getMappedProducts();
+        $latestProduct = Cache::remember('latest_products', 60, fn() => $this->getMappedProducts());
 
-        $firstBannerProduct = $this->getMappedProducts('Clothing & Accessories');
+        $firstBannerProduct = Cache::remember('first_banner_products', 60, fn() => $this->getMappedProducts('Clothing & Accessories'));
 
-        $secondBannerProduct = $this->getMappedProducts('Home & Kitchen');
+        $secondBannerProduct = Cache::remember('second_banner_products', 60, fn() => $this->getMappedProducts('Home & Kitchen'));
 
 
         return Inertia::render('Home/Show', [
