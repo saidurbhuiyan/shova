@@ -16,6 +16,13 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->unsignedInteger('priority')->default(0);
+            $table->longText('description')->nullable();
+            $table->string('image_path')->nullable();
+
+            $table->string('meta_title')->nullable();
+            $table->string('meta_keyword')->nullable();
+            $table->mediumText('meta_description')->nullable();
+            $table->boolean('is_visible')->default(true);
             $table->timestamps();
         });
     }

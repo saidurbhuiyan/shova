@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('product_variants', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
-            $table->string('variant_type')->default('color')->comment('color, size, etc.');
-            $table->string('name');
-            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('quantity')->nullable();
+            $table->decimal('original_price', 10);
+            $table->decimal('selling_price', 10);
+            $table->string('sku');
+            $table->boolean('is_visible');
+            $table->boolean('is_stocked');
+            $table->unsignedInteger('total_sales')->default(0);
+            $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });

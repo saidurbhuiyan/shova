@@ -16,7 +16,10 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->string('image_path')->nullable();
             $table->unsignedInteger('priority')->default(0);
+            $table->boolean('is_visible')->default(true);
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Brand;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class BrandSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class BrandSeeder extends Seeder
     public function run(): void
     {
         collect(['Apple', 'Samsung', 'Huawei', 'Xiaomi'])
-            ->each(fn ($brand) => Brand::firstOrCreate(['name' => $brand]));
+            ->each(fn ($brand) => Brand::firstOrCreate(['name' => $brand, 'slug' => Str::slug($brand)]));
     }
 }

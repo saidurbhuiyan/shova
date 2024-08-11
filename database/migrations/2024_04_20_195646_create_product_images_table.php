@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('product_images', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
-            $table->string('image_path',2048);
+            $table->string('image_path');
+            $table->string('color_name');
             $table->boolean('is_primary')->default(false);
             $table->timestamps();
 

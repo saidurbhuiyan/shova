@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('brands', static function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->boolean('is_visible')->default(true);
             $table->timestamps();
         });
     }
