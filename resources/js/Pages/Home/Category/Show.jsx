@@ -5,7 +5,7 @@ import ProductSection from "@/Pages/Home/ProductSection.jsx";
 import Pagination from "@/Components/Pagination.jsx";
 import SidebarFilter from "@/Pages/Home/Category/SidebarFilter.jsx";
 import ProductCard from "@/Pages/Home/ProductCard.jsx";
-import {useMaxOnScreenSize} from "@/helper.js";
+import {useMaxOnScreenSize} from "@/helper.ts";
 import TopFilter from "@/Pages/Home/Category/TopFIlter.jsx";
 
 export default function Show({ auth }) {

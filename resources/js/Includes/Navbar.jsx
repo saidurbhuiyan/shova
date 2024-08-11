@@ -4,8 +4,8 @@ import TextInput from '@/Components/TextInput';
 import { Link } from '@inertiajs/react';
 import {useState} from "react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
-import {getCartContents} from "@/helper.js"
-import {getLikeContents} from "@/ProductLike.js";
+import {getCartContents} from "@/helper.ts"
+import {getLikeContents} from "@/ProductLike.ts";
 
 export default function Navbar({ auth }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);

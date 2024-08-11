@@ -1,5 +1,5 @@
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
-import {image} from "@/helper.js";
+import {image} from "@/helper.ts";
 import {Link} from "@inertiajs/react";
 
 export default function Footer() {

@@ -1,4 +1,4 @@
-import { image} from '@/helper.js';
+import { image} from '@/helper.ts';
 import {
     IconChevronRight,
     IconStar,

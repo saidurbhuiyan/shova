@@ -5,7 +5,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { uppercase } from '@/helper';
+import { uppercase } from '@/helper.js';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Login({ auth, status, canResetPassword, username }) {
