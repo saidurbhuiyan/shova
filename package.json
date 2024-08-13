@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@tabler/icons-react": "^3.2.0",
+        "lodash.debounce": "^4.0.8",
         "prop-types": "^15.8.1",
         "react-share": "^5.1.0"
     }

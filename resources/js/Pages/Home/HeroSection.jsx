@@ -22,7 +22,7 @@ export default function HeroSection() {
                                     <IconChevronDown className='text-green-400' />
                                 </a>
                             </div>
-                            {props.categories && props.categories.map((category, index) => (
+                            {props.categories && props.categories.slice(0,6).map((category, index) => (
                                 <div className="border-b border-black" key={index}>
                                     <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('category', category.slug)}>
                                         {category.name}

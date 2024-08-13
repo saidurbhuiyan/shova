@@ -1,11 +1,10 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import SelectInput from '@/Components/SelectInput';
-import TextInput from '@/Components/TextInput';
 import { Link } from '@inertiajs/react';
 import {useState} from "react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
 import {getCartContents} from "@/helper.ts"
 import {getLikeContents} from "@/ProductLike.ts";
+import ProductSearch from "@/Pages/Home/ProductSearch.jsx";
 
 export default function Navbar({ auth }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -65,27 +64,7 @@ export default function Navbar({ auth }) {
                     </div>
 
                     <div className="col-span-2 2xl:col-span-3 order-last lg:order-none justify-center">
-                        <div
-                            className={auth.user ? 'w-full' : 'w-full sm:w-10/12 md:w-8/12 lg:w-10/12 mx-auto lg:mx-0'}>
-                            <form className="relative">
-                                <div className="absolute inset-y-0 left-0 flex items-center">
-                                    <SelectInput id="products"
-                                                 newClassName="h-full w-full shadow-none rounded-l-full bg-transparent py-0 pl-7 text-md border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-offset-0"
-                                                 optionsData={{
-                                                     'mobile': 'Mobile',
-                                                     'watch': 'Watch',
-                                                     'perfume': 'Perfume',
-                                                 }}
-                                                 defaultOption='All Products'
-                                    />
-                                </div>
-                                <TextInput
-                                    newClassName="block w-full rounded-full py-2 pl-48 border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-offset-0 outline-none shadow-sm text-md font-bold"
-                                    type="search"
-                                    placeholder="Search Your Product Here..."/>
-
-                            </form>
-                        </div>
+                        <ProductSearch auth={auth}/>
                     </div>
 
                     <div className="col-span-1 flex justify-end gap-1 sm:gap-6 items-center">
