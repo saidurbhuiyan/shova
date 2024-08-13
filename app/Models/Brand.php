@@ -21,9 +21,12 @@ class Brand extends Model
 
     /**
      * The attributes that should be cast to native types.
-     * @var array
+     * @return array
      */
-    protected $casts = [
-        'is_visible' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_visible' => 'boolean',
+        ];
+    }
 }

@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductImage extends Model
 {
+
     use HasFactory;
     use HasImage;
 
     /**
-     * The attributes that are mass assignable. 
-     * 
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = [
@@ -25,25 +26,32 @@ class ProductImage extends Model
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * The attributes that should be appended.
+     * @var string[]
      */
-    protected $casts = [
-        'is_primary' => 'boolean',
-    ];
-
     protected $appends = [
         'image_url',
     ];
 
     /**
+     * The attributes that should be cast.
+     * @return string[]
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_primary' => 'boolean',
+        ];
+    }
+
+    /**
      * Get the product that owns the image.
-     * 
+     *
      * @return BelongsTo
      */
-    public function product() : BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
+
 }

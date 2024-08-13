@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Address extends Model
 {
+
     use HasFactory;
 
     /**
@@ -28,28 +29,32 @@ class Address extends Model
 
     /**
      * The attributes that should be cast to native types.
-     * @var array
+     * @return array
      */
-    protected $casts = [
-        'is_primary' => 'boolean',
-        'is_guest' => 'boolean',
-        'is_archived' => 'boolean',
-    ];
+    public function casts(): array
+    {
+        return [
+            'is_primary'  => 'boolean',
+            'is_guest'    => 'boolean',
+            'is_archived' => 'boolean',
+        ];
+
+    }
 
     /**
      * Get the user that owns the address.
      */
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
      * Get the orders that owns the address.
-     * 
+     *
      * @return HasMany
      */
-    public function orders() : HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
