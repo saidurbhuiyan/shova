@@ -7,16 +7,19 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Random\RandomException;
 
 /**
  * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     * @throws RandomException
      */
     public function definition(): array
     {
@@ -30,6 +33,7 @@ class ProductFactory extends Factory
             'brand_id' => Brand::all()->random()->id,
             'title' => $title,
             'slug' => str_replace(' ', '-', $title),
+            'sku' => 'prod-' . strtoupper(bin2hex(random_bytes(3))),
             'short_description' => fake()->text(),
             'description' => fake()->paragraph(10),
             'specification' => fake()->paragraph(10),
