@@ -25,12 +25,16 @@ class order extends Model
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @return array
      */
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
 
     /**
      * Get the user that owns the order.

@@ -26,14 +26,18 @@ class DiscountCode extends Model
     ];
 
     /**
-     * @var string[]
+     * Get the attributes that should be cast.
+     * @return string[]
      */
-    protected $casts = [
-        'start_date'        => 'datetime:Y-m-d H:i:s',
-        'end_date'          => 'datetime:Y-m-d H:i:s',
-        'created_at'        => 'datetime:Y-m-d H:i:s',
-        'is_active'         => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'datetime:Y-m-d H:i:s',
+            'end_date'   => 'datetime:Y-m-d H:i:s',
+            'created_at' => 'datetime:Y-m-d H:i:s',
+            'is_active' => 'boolean',
+        ];
+    }
 
     /**
      * @return HasMany

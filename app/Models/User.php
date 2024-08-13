@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+
     use HasFactory;
     use Notifiable;
     use HasRoles;
@@ -44,17 +45,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected $casts = [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'phone_verified_at' => 'datetime',
-            'date_of_birth' => 'date',
-        ];
 
     /**
      * The accessors to append to the model's array form.
@@ -64,21 +54,37 @@ class User extends Authenticatable
     protected $appends = ['profile_photo_url'];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password'          => 'hashed',
+            'phone_verified_at' => 'datetime',
+            'date_of_birth'     => 'date',
+        ];
+
+    }
+
+    /**
      * Get the orders for the user.
-     * 
+     *
      * @return HasMany
      */
-    public function orders() : HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
     /**
      * Get the addresses for the user.
-     * 
+     *
      * @return HasMany
      */
-    public function addresses() : HasMany
+    public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
     }
@@ -90,4 +96,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProductReview::class);
     }
+
 }

@@ -29,14 +29,6 @@ class Category extends Model
         'meta_description',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_visible' => 'boolean',
-    ];
 
     /**
      * @var string[]
@@ -44,6 +36,17 @@ class Category extends Model
     protected $appends = [
         'image_url',
     ];
+
+    /**
+     * The attributes that should be cast.
+     * @return string[]
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_visible' => 'boolean',
+        ];
+    }
 
     /**
      * Get all of the subcategories for the Category

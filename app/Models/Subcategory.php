@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Subcategory extends Model
 {
+
     use HasFactory;
     use HasImage;
 
@@ -21,22 +22,26 @@ class Subcategory extends Model
         'description',
         'image_path',
         'priority',
-        'is_visible'
-    ];
-
-    /**
-     * @var string[]
-     */
-    protected $casts = [
-        'is_visible' => 'boolean'
+        'is_visible',
     ];
 
     /**
      * @var string[]
      */
     protected $appends = [
-        'image_url'
+        'image_url',
     ];
+
+    /**
+     * The attributes that should be cast.
+     * @return array
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_visible' => 'boolean',
+        ];
+    }
 
     /**
      * @return BelongsTo
@@ -45,4 +50,5 @@ class Subcategory extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
 }
