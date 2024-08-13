@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
                                 'quantity'       => random_int(1, 100),
                                 'original_price' => random_int(1000, 2000),
                                 'selling_price'  => random_int(500, 1500),
-                                'sku'            => 'SKU-' . strtoupper(bin2hex(random_bytes(4))),
+                                'sku'            => 'coz-' . strtoupper(bin2hex(random_bytes(3))),
                                 'is_visible'     => true,
                                 'is_stocked'     => true,
                                 'total_sales'    => 0,
