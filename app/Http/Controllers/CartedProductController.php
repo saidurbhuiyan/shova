@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CartedProductRequest;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CartedProductController extends Controller
 {

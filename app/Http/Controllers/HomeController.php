@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
-use App\Services\HashIdService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -30,7 +28,6 @@ class HomeController extends Controller
         return Inertia::render('Home/Show', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            'categories' => Category::latest()->limit(6)->get(),
             'latestProduct' => $latestProduct,
             'firstBannerProduct' => $firstBannerProduct,
             'secondBannerProduct' => $secondBannerProduct,
