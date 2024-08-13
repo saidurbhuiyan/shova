@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Services\HashIdService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class RelatedProductOnCategoryController extends Controller
 {
