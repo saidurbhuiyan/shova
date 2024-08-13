@@ -4,10 +4,6 @@ import { uppercase } from '@/helper.ts';
 export default forwardRef(function SelectInput({ optionsData = {}, defaultOption = null, className = '', newClassName = null, isFocused = false, ...props }, ref) {
     const input = ref ? ref : useRef();
 
-    if (!Array.isArray(optionsData)) {
-        optionsData = Object.keys(optionsData).map(key => optionsData[key]);
-    }
-
     useEffect(() => {
         if (isFocused) {
             input.current.focus();
@@ -26,11 +22,20 @@ export default forwardRef(function SelectInput({ optionsData = {}, defaultOption
         >
             {defaultOption && <option value="">{defaultOption}</option>}
 
-            {optionsData.map((option) => (
-                <option key={option} value={option}>
-                    {typeof option === 'string' ? uppercase(option) : option}
-                </option>
-            ))}
+            {Array.isArray(optionsData) ? (
+                optionsData.map((option, key) => (
+                    <option key={key} value={key}>
+                        {typeof option === 'string' ? uppercase(option) : option}
+                    </option>
+                ))
+            ) : (
+                Object.entries(optionsData).map(([key, option]) => (
+                    <option key={key} value={key}>
+                        {typeof option === 'string' ? uppercase(option) : option}
+                    </option>
+                ))
+            )}
+
 
         </select>
     );
