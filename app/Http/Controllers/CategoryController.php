@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
-use App\Services\HashIdService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -22,7 +20,9 @@ class CategoryController extends Controller
                 $query->where('slug', $slug);
             });
         }
-        $products = $products->paginate(14);
+        $products = $products->with(['image', 'category'])
+            ->orderBy('id', 'desc')
+            ->paginate(14);
 
         if (! $products) {
             abort(404);
