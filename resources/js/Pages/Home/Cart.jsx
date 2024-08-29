@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Cart(){
-    const cartItems =
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
     const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
 
