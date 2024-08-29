@@ -13,6 +13,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
+        "monicahq/laravel-cloudflare": "^3.7",
         "spatie/laravel-permission": "^6.7",
         "tightenco/ziggy": "^2.0"
     },
