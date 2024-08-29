@@ -4,7 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+
     "content-hash": "907a1f93d3f28b40153a08093841cf85",
+
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -2265,6 +2267,7 @@
             "time": "2024-04-03T19:39:26+00:00"
         },
         {
+
             "name": "monicahq/laravel-cloudflare",
             "version": "3.7.1",
             "source": {
@@ -2340,6 +2343,7 @@
             "time": "2024-03-30T09:59:45+00:00"
         },
         {
+
             "name": "monolog/monolog",
             "version": "3.6.0",
             "source": {
