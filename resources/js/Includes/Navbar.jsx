@@ -5,6 +5,8 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
 import {getCartContents} from "@/helper.ts"
 import {getLikeContents} from "@/ProductLike.ts";
 import ProductSearch from "@/Pages/Home/ProductSearch.jsx";
+import CartIcon from "@/Icons/CartIcon.jsx";
+import LoveIcon from "@/Icons/LoveIcon.jsx";
 
 export default function Navbar({ auth }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -106,12 +108,7 @@ export default function Navbar({ auth }) {
 
                         <div className="flex items-center">
                             <Link href="" className="relative">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     strokeWidth={2} stroke="currentColor"
-                                     className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9">
-                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
-                                </svg>
+                                <LoveIcon/>
                                 <p className="absolute top-2 right-0 w-3 h-3 sm:h-3.5 sm:w-3.5 2xl:h-4 2xl:w-4 bg-gray-800 rounded-full flex items-center justify-center text-[0.50rem] sm:text-[0.55rem] lg:text-[0.60rem] 2xl:text-[0.65rem] text-white">
                                     {likeLength}
                                 </p>
@@ -119,13 +116,8 @@ export default function Navbar({ auth }) {
                         </div>
                         <div className="flex items-center">
                             <Link href="" className="relative">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     strokeWidth={2} stroke="currentColor"
-                                     className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9">
-                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-                                </svg>
-                                <p className="absolute top-2 right-0 w-3 h-3 sm:h-3.5 sm:w-3.5 2xl:h-4 2xl:w-4 bg-red-500 rounded-full flex items-center justify-center text-[0.50rem] sm:text-[0.55rem] lg:text-[0.60rem] 2xl:text-[0.65rem] text-white">
+                                <CartIcon/>
+                                <p className={(cartLength === 0 ? 'bg-gray-800' : 'bg-red-500') + ' absolute top-2 right-0 w-3 h-3 sm:h-3.5 sm:w-3.5 2xl:h-4 2xl:w-4 rounded-full flex items-center justify-center text-[0.50rem] sm:text-[0.55rem] lg:text-[0.60rem] 2xl:text-[0.65rem] text-white'}>
                                     {cartLength}
                                 </p>
                             </Link>
@@ -134,7 +126,6 @@ export default function Navbar({ auth }) {
                 </div>
 
             </div>
-
             <aside
                 className={(showingNavigationDropdown ? 'translate-x-0' : '-translate-x-full') + ' h-full lg:hidden fixed top-20 left-0 z-40 w-64 h-screen transition-transform transition duration-150 ease-in-out'}>
                 <div className="h-full px-3 py-4 overflow-y-auto bg-white">
@@ -145,47 +136,47 @@ export default function Navbar({ auth }) {
                     </div>
                     <div className="space-y-1">
                         <ResponsiveNavLink href="#">
-                        Gadgets
-                    </ResponsiveNavLink>
-                </div>
-                <div className="space-y-1">
-                    <ResponsiveNavLink href="#">
-                        Home Decor
-                    </ResponsiveNavLink>
-                </div>
-                <div className="space-y-1">
-                    <ResponsiveNavLink href="#">
-                        Smart Watches
-                    </ResponsiveNavLink>
-                </div>
-                <div className="space-y-1">
-                    <ResponsiveNavLink href="#">
-                        Perfumes
-                    </ResponsiveNavLink>
-                </div>
+                            Gadgets
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="space-y-1">
+                        <ResponsiveNavLink href="#">
+                            Home Decor
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="space-y-1">
+                        <ResponsiveNavLink href="#">
+                            Smart Watches
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="space-y-1">
+                        <ResponsiveNavLink href="#">
+                            Perfumes
+                        </ResponsiveNavLink>
+                    </div>
 
-                <div className="space-y-1">
-                    <ResponsiveNavLink href="#">
-                        Cosmetics Collection
-                    </ResponsiveNavLink>
-                </div>
+                    <div className="space-y-1">
+                        <ResponsiveNavLink href="#">
+                            Cosmetics Collection
+                        </ResponsiveNavLink>
+                    </div>
 
-                <div className="space-y-1">
-                    <ResponsiveNavLink href="#">
-                        Kids Collections
-                    </ResponsiveNavLink>
-                </div>
+                    <div className="space-y-1">
+                        <ResponsiveNavLink href="#">
+                            Kids Collections
+                        </ResponsiveNavLink>
+                    </div>
 
-                <div className="space-y-1">
-                    <ResponsiveNavLink href="#">
-                        All Categories
-                    </ResponsiveNavLink>
-                </div>
+                    <div className="space-y-1">
+                        <ResponsiveNavLink href="#">
+                            All Categories
+                        </ResponsiveNavLink>
+                    </div>
 
                 </div>
 
             </aside>
         </nav>
 
-);
+    );
 }
