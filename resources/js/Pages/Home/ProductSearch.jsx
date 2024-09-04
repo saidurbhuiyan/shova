@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, {useState, useCallback, useMemo, useEffect} from 'react';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import TextInput from "@/Components/TextInput.jsx";
@@ -9,39 +9,39 @@ export default function Search({ auth }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [moreUrl, setMoreUrl] = useState(route('category'))
     const props = usePage().props;
 
-    const searchProducts = async (value) => {
+    const searchProducts = async () => {
         try {
             const response = await axios.get(route('product.search'), {
                 params: {
-                    query: value,
+                    searchTerm: query,
                     category: selectedCategory
                 }
             });
             setResults(response.data);
         } catch (error) {
             console.error('Error searching:', error);
-            // Consider adding user-friendly error handling here
         }
+
+        setMoreUrl(route('category', [selectedCategory, {'searchTerm' : query}]));
+
     };
 
-    const debouncedSearch = useCallback(debounce(searchProducts, 300), [selectedCategory]);
+    const debouncedSearch = useCallback(debounce(searchProducts, 500));
 
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        setQuery(value);
-
-        if (value.length > 2) {
-            debouncedSearch(value);
+    useEffect(() => {
+        if (query.length > 2) {
+            debouncedSearch();
         } else {
             setResults([]);
         }
-    };
+    }, [query, selectedCategory]);
 
     const optionsData = useMemo(() => {
         return props.categories ? Object.fromEntries(
-            props.categories.map(category => [category.id, category.name])
+            props.categories.map(category => [category.slug, category.name])
         ) : {};
     }, [props.categories]);
 
@@ -58,23 +58,12 @@ export default function Search({ auth }) {
                     />
                 </div>
                 <TextInput
-                    newClassName="block w-full rounded-full py-2 pl-[34.5%] pr-8 border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-offset-0 outline-none shadow-sm text-md font-bold"
+                    newClassName="block w-full rounded-full py-2 pl-[34.5%] border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-offset-0 outline-none shadow-sm text-md font-bold"
                     type="text"
                     value={query}
-                    onChange={handleInputChange}
+                    onChange={(e)=> setQuery(e.target.value)}
                     placeholder="Search products..."
                 />
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                    <button
-                        type="button"
-                        className="h-full w-full shadow-none rounded-l-full bg-transparent py-0 px-2 text-md border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-offset-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                             strokeWidth="1.5" stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round"
-                                  d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                        </svg>
-                    </button>
-                </div>
 
                 {results.length > 0 && (
                     <div className="absolute w-full z-40 duration-150 ease-in-out flex justify-center">
@@ -90,6 +79,9 @@ export default function Search({ auth }) {
                                     </Link>
                                 </li>
                             ))}
+                            <li className="text-center p-2">
+                                <Link className="underline underline-offset-2 text-blue-600 font-extrabold hover:text-blue-600/80" href={moreUrl}>Load More</Link>
+                            </li>
                         </ul>
                     </div>
                 )}
@@ -98,7 +90,7 @@ export default function Search({ auth }) {
                     <div className="absolute w-full z-40 duration-150 ease-in-out flex justify-center">
                         <ul className="fixed w-full max-w-md min-h-72 m-1 bg-white border border-gray-300 mt-2 rounded-lg shadow-lg">
                             <li className="text-center py-12 px-2 hover:bg-gray-100">
-                                No results found for query
+                                No results found
                             </li>
                         </ul>
                     </div>

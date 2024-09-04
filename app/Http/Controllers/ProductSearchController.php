@@ -16,16 +16,16 @@ class ProductSearchController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        if ($request->has('query')) {
-            $products = Product::search(trim($request->get('query')) ?? '')
+        if ($request->has('searchTerm')) {
+            $products = Product::search(trim($request->get('searchTerm')) ?? '')
                 ->orderBy('id', 'desc')
                 ->query(function ($query) use ($request) {
-                    if (!empty($request->get('category'))) {
-                        $query->where('category_id', $request->get('category'));
-                    }
+
+                    !empty($request->get('category')) && $query->whereHas('category', fn ($query) => $query->where('slug', $request->get('category')));
+
                     return $query->with([
                         'image' => fn($query) => $query->select('product_id', 'image_path')
-                    ])->select('id', 'title', 'slug');
+                    ])->select('id', 'title', 'slug', 'category_id');
                 })
                 ->take(5)
                 ->get();
