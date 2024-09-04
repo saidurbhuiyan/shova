@@ -6,7 +6,7 @@ import IconOnRating from "@/Components/IconOnRating.jsx";
 export default function ProductCard({ product = null }) {
 
 
-    const hasOffer = product?.sale_price < product?.price
+    const hasOffer = product?.selling_price < product?.original_price
 
     return (
         <div className="max-w-sm border border-gray-300/80 bg-white rounded-t overflow-hidden relative hover:shadow-md">

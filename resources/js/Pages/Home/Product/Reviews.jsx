@@ -19,7 +19,7 @@ export default function Reviews({productId, totalReviews, rating}) {
     const fetchReviews = () => {
         (async () => {
             try {
-                const response = await fetch(route('product.reviews.show', productId)+'?page=${page}');
+                const response = await fetch(route('product.reviews.show', productId)+'?page='+page);
                 const result = await response.json();
                 setReviews((prevReviews) => [...prevReviews, ...result.data]);
                 setHasMore(result.current_page < result.last_page);
@@ -122,6 +122,7 @@ export default function Reviews({productId, totalReviews, rating}) {
                             </div>
                         )) : (
                             <div className="text-center m-4">
+                                {loading ?
                                 <div role="status">
                                     <svg aria-hidden="true"
                                          className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -135,12 +136,19 @@ export default function Reviews({productId, totalReviews, rating}) {
                                     </svg>
                                     <span className="sr-only">Loading...</span>
                                 </div>
+                                    :
+                                    <div className="bg-white border border-gray-300/80 m-2 p-2">
+                                        No Review Found
+                                    </div>
+                                }
                             </div>
                         )}
                     </div>
+            {reviews.length > 0 && reviews.current_page !== reviews.last_page &&
                     <div className="px-5 py-2.5 capitalize text-right">
                         <Link href="#" onClick={handleMoreButton} className="text-xs text-blue-500">Load More...</Link>
                     </div>
+            }
         </div>
     );
 }

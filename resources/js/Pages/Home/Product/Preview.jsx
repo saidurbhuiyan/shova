@@ -4,7 +4,7 @@ import LikeButton from "@/Components/LikeButton.jsx";
 import {usePage} from "@inertiajs/react";
 import TextInput from "@/Components/TextInput.jsx";
 import Pluralize from "@/Pluralize.ts";
-import {colorCodeByName, mapAttributes} from "@/helper.ts";
+import {addToCart, colorCodeByName, mapAttributes, removeFromCart} from "@/helper.ts";
 export default function Preview({product}){
     const [selectedImage, setSelectedImage] =useState(product?.image)
     const [selectedVariant, setSelectedVariant] = useState(product?.variants[0]?? null)
@@ -62,7 +62,7 @@ export default function Preview({product}){
 
 
     return (
-        <section className="grid lg:grid-cols-11 gap-8">
+        <section className="grid lg:grid-cols-11 gap-8 justify-center">
 
             {/*image preview*/}
             <div className="lg:col-span-6 flex justify-center lg:justify-start">
@@ -74,7 +74,7 @@ export default function Preview({product}){
                     <div className="col-span-1 order-last md:order-first grid grid-cols-4 md:grid-cols-1 grid-rows-1 md:grid-rows-4 gap-2 h-full p-2 bg-[#dcf0ff] items-center w-full">
                         {typeof product.images === 'object' && product.images.map((image, index) =>
                             <div key={index} className="col-span-1 row-span-1">
-                                <img onClick={handleClick} className={"m-auto border border-gray-300/80 h-[100px] w-[100px] rounded bg-white " + (selectedImage.image_url === image.image_url? " border-[6px] 2xl:border-8 border-gray-600" : 'hover:border-[6px] hover:2xl:border-8 hover:border-gray-600')}
+                                <img onClick={handleClick} className={"m-auto border border-gray-300/80 h-full w-full max-h-[100px] max-w-[100px] rounded bg-white " + (selectedImage.image_url === image.image_url? " border-[6px] 2xl:border-8 border-gray-600" : 'hover:border-[6px] hover:2xl:border-8 hover:border-gray-600')}
                                      imagekey={index} src={image.image_url} alt={product?.title+'-'+index}/>
                             </div>
                         )}
@@ -104,44 +104,44 @@ export default function Preview({product}){
 
             {/** product summary*/}
             <div className="lg:col-span-5 mx-2 lg:ml-4 xl:ml-16">
-                <div className="mb-4 flex gap-3 justify-between items-center">
-                    <div className="flex gap-3 items-center">
-                        <div className="bg-gray-100 py-1 px-3 uppercase rounded-full text-sm font-extrabold">
+                <div className="mb-4 flex gap-1 xs:gap-3 justify-between items-center">
+                    <div className="flex gap-1 xs:gap-3 items-center">
+                        <div className="bg-gray-100 py-1 px-2 xs:px-3 uppercase rounded-full text-[0.68rem] xs:text-sm font-extrabold">
                             {product?.is_stocked && selectedVariant.is_stocked ?
                                 <div className="flex">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                         className="size-5 text-green-600">
+                                         className="size-4 xs:size-5 text-green-600">
                                         <path fillRule="evenodd"
                                               d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
                                               clipRule="evenodd"/>
                                     </svg>
-                                    <span className="ml-2">
+                                    <span className="ml-0.5 xs:ml-2">
                                     in stock
                                 </span>
                                 </div>
                                 :
                                 <div className="flex">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                         className="size-5 text-orange-400">
+                                         className="size-4 xs:size-5 text-orange-400">
                                         <path fillRule="evenodd"
                                               d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
                                               clipRule="evenodd"/>
                                     </svg>
-                                    <span className="ml-2">
+                                    <span className="ml-0.5 xs:ml-2">
                                     out of stock
                                 </span>
                                 </div>
                             }
                         </div>
-                        <div className="bg-gray-100 py-1 px-3 rounded-full capitalize text-sm">
+                        <div className="bg-gray-100 py-1 px-2 xs:px-3 rounded-full capitalize text-[0.68rem] xs:text-sm">
                             Brand:
-                            <span className=" ml-1 font-extrabold">
+                            <span className=" ml-0.5 xs:ml-1 font-extrabold">
                                 {product?.brand}
                             </span>
                         </div>
-                        <div className="bg-gray-100 py-1 px-3 capitalize rounded-full text-sm">
+                        <div className="bg-gray-100 py-1 px-2 xs:px-3 capitalize rounded-full text-[0.68rem] xs:text-sm">
                             SKU:
-                            <span className="ml-1 font-extrabold">
+                            <span className="ml-0.5 xs:ml-1 font-extrabold">
                                 {selectedVariant?.sku ?? product?.sku}
                             </span>
                         </div>
@@ -153,23 +153,23 @@ export default function Preview({product}){
                 </div>
 
                 <div className="mb-4 xl:mb-8 flex justify-between gap-2">
-                    <div className="flex text-xl xl:text-3xl font-extrabold border border-black rounded items-center">
-                        <div className="bg-black py-2 px-6 text-white">
+                    <div className="flex text-lg md:text-xl font-extrabold border border-black rounded items-center">
+                        <div className="bg-black py-2 px-4 md:px-6 text-white">
                             Price :
                         </div>
-                        <div className="uppercase py-2 px-8">
+                        <div className="uppercase py-2 px-4 md:px-6">
                             {selectedVariant?.selling_price ?? product?.selling_price} {usePage().props.currency_name}
                         </div>
                     </div>
 
                     {/**product quantity*/}
                     {selectedVariant?.is_stocked && product?.is_stocked &&
-                        <div className="flex text-3xl font-extrabold border border-black rounded items-center">
-                            <button className="p-2 h-full" onClick={() => cartQuantity.current.stepUp()}>
+                        <div className="flex text-lg md:text-xl font-extrabold border border-black rounded items-center">
+                            <button className="p-2" onClick={() => cartQuantity.current.stepDown()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth="1.5"
-                                     stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                                     stroke="currentColor" className="size-5 md:size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14"/>
                                 </svg>
 
                             </button>
@@ -177,11 +177,11 @@ export default function Preview({product}){
                                        newClassName="no-spinner focus:ring-0 focus:ring-offset-0 outline-none border-none text-center"
                                        type="number" min="1" max={selectedVariant.available_quantity} defaultValue="1"
                             />
-                            <button className="p-2" onClick={() => cartQuantity.current.stepDown()}>
+                            <button className="p-2 h-full" onClick={() => cartQuantity.current.stepUp()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth="1.5"
-                                     stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14"/>
+                                     stroke="currentColor" className="size-5 md:size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                                 </svg>
 
                             </button>
@@ -228,7 +228,7 @@ export default function Preview({product}){
                                             :
                                             <label
                                                 className={
-                                                "rounded-full cursor-pointer px-2 py-1 transition-opacity duration-300 ease-in-out hover:opacity-75 focus-within:opacity-75 hover:ring-2 peer-checked:ring-2 ring-gray-800 hover:ring-offset-1 shadow "
+                                                "capitalize rounded-full cursor-pointer px-2 py-1 transition-opacity duration-300 ease-in-out hover:opacity-75 focus-within:opacity-75 hover:ring-2 peer-checked:ring-2 ring-gray-800 hover:ring-offset-1 shadow "
                                                     + (attribute.name !== 'color' ? "bg-gray-100 border border-gray-300 peer-checked:border-none hover:border-none" : "")
                                             }
                                                 htmlFor={`${attribute.name}-${key}`}
@@ -252,7 +252,9 @@ export default function Preview({product}){
                     <div className="mb-2 text-center">
                         <button type="button"
                                 disabled={!selectedVariant.is_stocked && !product?.is_stocked}
-                                className="w-full px-5 py-2.5 text-lg font-extrabold text-dark bg-white border border-gray-600 hover:bg-gray-100 focus:ring-0 focus:outline-none rounded-full text-center">
+                                className="w-full px-5 py-2.5 text-lg font-extrabold text-dark bg-white border border-gray-600 hover:bg-gray-100 focus:ring-0 focus:outline-none rounded-full text-center"
+                                onClick={() => addToCart(product?.sku_id)}
+                        >
                             Add To Cart
                         </button>
 
@@ -260,7 +262,8 @@ export default function Preview({product}){
                     <div className="mb-2 text-center">
                         <button type="button"
                                 disabled={!selectedVariant?.is_stocked && !product?.is_stocked}
-                                className="w-full px-5 py-2.5 text-lg font-extrabold text-white bg-blue-700 hover:bg-blue-800 focus:ring-0 focus:outline-none rounded-full text-center">
+                                className="w-full px-5 py-2.5 text-lg font-extrabold text-white bg-blue-700 hover:bg-blue-800 focus:ring-0 focus:outline-none rounded-full text-center"
+                        onClick={() => removeFromCart()}>
                             Buy Now
                         </button>
 

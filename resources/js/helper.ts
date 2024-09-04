@@ -215,3 +215,5 @@ export const mapAttributes = (variant : Array<any>, isSingle : boolean = false) 
         return acc;
     }, [])
 }
+
+export  const  isMobile = (): boolean => Math.min(window.screen.width, window.screen.height) < 768 || navigator.userAgent.indexOf("Mobi") > -1;
