@@ -46,7 +46,7 @@ To get started with Shove, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/shove.git
+   git clone https://github.com/saidurbhuiyan/shove.git
    cd shove
    ```
 
