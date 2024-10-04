@@ -7,7 +7,6 @@ export default function ProductCard({ product = null }) {
 
 
     const hasOffer = product?.selling_price < product?.original_price
-
     return (
         <div className="max-w-sm border border-gray-300/80 bg-white rounded-t overflow-hidden relative hover:shadow-md">
             {product ? <div>
@@ -23,7 +22,7 @@ export default function ProductCard({ product = null }) {
                             <button className="text-xs text-black py-1 px-2"
                                     onClick={function (e) {
                                         e.preventDefault();
-                                        router.visit(route('category', product?.category_slug))
+                                        router.visit(route('product.search', {category:product?.category_slug}))
                                     }}>{product?.category}</button>
                         </div>
                         <div className="p-1 text-right">
@@ -47,7 +46,7 @@ export default function ProductCard({ product = null }) {
                     </div>}
 
                     <div>
-                        <img className="m-auto" src={product?.image.image_url} alt={product?.title}/>
+                        <img className="m-auto" src={product?.image?.image_url} alt={product?.title}/>
                     </div>
                         <div className="relative">
                     <div className="absolute -bottom-3 left-0 right-0">

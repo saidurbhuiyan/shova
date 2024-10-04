@@ -5,7 +5,7 @@ use App\Http\Controllers\CartedProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductReviewsController;
-use App\Http\Controllers\ProductSearchController;
+use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\ProductViewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelatedProductOnCategoryController;
@@ -16,8 +16,6 @@ use Inertia\Inertia;
 
 Route::group(['middleware' => InertiaSearchRequests::class], static function () {
 Route::get('/', HomeController::class)->name('home');
-//categories
-Route::get('/category/{slug?}', CategoryController::class)->name('category');
 
 //cart
 Route::get('/cart', CartController::class)->name('cart');
@@ -31,10 +29,10 @@ Route::prefix('product')
     Route::get('/reviews/{productId}', [ProductReviewsController::class, 'show'])->name('reviews.show');
     Route::post('/reviews/{productId}', [ProductReviewsController::class, 'store'])->name('reviews.store');
     Route::get('/related/{categorySlug}/{sellingPrice}', RelatedProductOnCategoryController::class)->name('related');
-    Route::get('/search', ProductSearchController::class)->name('search');
+    Route::get('/search', SearchProductController::class)->name('search');
+});
+});
 
-});
-});
 
 
 //dashboard

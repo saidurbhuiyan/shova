@@ -216,4 +216,18 @@ export const mapAttributes = (variant : Array<any>, isSingle : boolean = false) 
     }, [])
 }
 
+/**
+ * Check if the device is mobile
+ * @returns {boolean}
+ */
 export  const  isMobile = (): boolean => Math.min(window.screen.width, window.screen.height) < 768 || navigator.userAgent.indexOf("Mobi") > -1;
+
+ /**
+ * Function to get the value of a URL parameter by name from the current URL.
+ * @param {string} paramName - The name of the parameter to retrieve.
+ * @returns {string|null} - The value of the parameter if found, otherwise null.
+ */
+ export const getUrlParam = (paramName: string): string | null => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(paramName);
+}

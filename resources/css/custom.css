@@ -8,3 +8,40 @@
 .no-spinner {
     -moz-appearance: textfield;
 }
+
+/* The track (actual range line) */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 5px;
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 5px;
+}
+
+/* The thumb (slider handle) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -3.5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgb(20 184 166);
+    cursor: ew-resize;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgb(20 184 166);
+    cursor: ew-resize;
+}

@@ -85,8 +85,8 @@ class Product extends Model
      */
     public function getOfferPercentageAttribute(): float|int
     {
-        if ($this->price > $this->sale_price) {
-            return round((($this->price - $this->sale_price) / $this->price) * 100, 2);
+        if ($this->original_price > $this->selling_price) {
+            return round((($this->original_price - $this->selling_price) / $this->original_price) * 100, 2);
         }
 
         return 0;
@@ -94,7 +94,7 @@ class Product extends Model
 
     public function getHashIdAttribute(): string
     {
-        return (new HashIdService)->encode($this->id);
+        return isset($this->id) ? (new HashIdService)->encode($this->id) : '';
     }
 
 
@@ -199,7 +199,6 @@ class Product extends Model
                 ->first()?->only(['image_url', 'color_name']) ?? [];
         }
 
-
         return (object)[
             'sku_id'            => $product->id,
             'hash_id'           => $product->hash_id,
@@ -222,7 +221,9 @@ class Product extends Model
             'category'          => $product->category->name,
             'category_slug'     => $product->category->slug,
             'subcategory'       => $product->subcategory->name ?? null,
+            'subcategory_slug'  => $product->subcategory->slug ?? null,
             'brand'             => $product->brand->name ?? null,
+            'brand_slug'        => $product->brand->slug ?? null,
             'original_price'    => $product->original_price,
             'selling_price'     => $product->selling_price,
             'offer_percentage'  => $product->offer_percentage,

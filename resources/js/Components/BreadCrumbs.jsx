@@ -8,21 +8,21 @@ export default function BreadCrumbs({product}){
                 Home
             </Link>
             <span className="mx-1">/</span>
-            <Link href={route('category', product?.category_slug)}>
+            <Link href={route('product.search', {category: product?.category_slug})}>
                 {product?.category}
             </Link>
 
             {typeof product?.subcategory !== 'undefined' &&
                 <>
                     <span className="mx-1">/</span>
-                    <Link href={route('category', product?.subcategory)}>
+                    <Link href={route('product.search',{ subcategory: product?.subcategory_slug})}>
                         {product?.subcategory}
                     </Link>
                 </>
             }
 
             <span className="mx-1">/</span>
-            <Link href={route('category', product?.brand)}>
+            <Link href={route('product.search', {brand: product?.brand_slug})}>
                 {product?.brand}
             </Link>
 

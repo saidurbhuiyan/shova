@@ -24,7 +24,7 @@ export default function HeroSection() {
                             </div>
                             {props.categories && props.categories.slice(0,6).map((category, index) => (
                                 <div className="border-b border-black" key={index}>
-                                    <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('category', category.slug)}>
+                                    <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('product.search', {category:category.slug})}>
                                         {category.name}
                                         <div className="flex gap-2 items-center">
                                             <IconStar className="text-gray-500" size={12} />
@@ -35,7 +35,7 @@ export default function HeroSection() {
                             ))}
 
                             <div>
-                                <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('category')}>
+                                <Link className="flex items-center justify-between py-2 px-4 text-black gap-2" href={route('product.search')}>
                                     See All Categories
                                     <div className="flex gap-2 items-center">
                                         <IconStar className="text-gray-500" size={12} />

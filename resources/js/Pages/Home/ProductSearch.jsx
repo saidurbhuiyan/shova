@@ -4,28 +4,37 @@ import debounce from 'lodash.debounce';
 import TextInput from "@/Components/TextInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import { Link, usePage } from "@inertiajs/react";
+import {getUrlParam} from "@/helper.ts";
 
-export default function Search({ auth }) {
+export default function ProductSearch({ auth }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [moreUrl, setMoreUrl] = useState(route('category'))
+    const [selectedCategory, setSelectedCategory] = useState(getUrlParam('category')?? '');
+    const [moreUrl, setMoreUrl] = useState(route('product.search'))
     const props = usePage().props;
 
     const searchProducts = async () => {
+        let params = {
+            product: query,
+            format: 'json',
+            perPage: 5,
+        }
+        if (selectedCategory) params.category = selectedCategory;
+
         try {
+
             const response = await axios.get(route('product.search'), {
-                params: {
-                    searchTerm: query,
-                    category: selectedCategory
-                }
+                params: params
             });
             setResults(response.data);
         } catch (error) {
             console.error('Error searching:', error);
         }
 
-        setMoreUrl(route('category', [selectedCategory, {'searchTerm' : query}]));
+        delete params.perPage;
+        delete params.format;
+
+        setMoreUrl(route('product.search', params));
 
     };
 
@@ -54,6 +63,7 @@ export default function Search({ auth }) {
                         newClassName="h-full shadow-none w-full rounded-l-full bg-transparent py-0 pl-6 text-md border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-offset-0"
                         optionsData={optionsData}
                         defaultOption='All Products'
+                        value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
                     />
                 </div>
@@ -68,14 +78,15 @@ export default function Search({ auth }) {
                 {results.length > 0 && (
                     <div className="absolute w-full z-40 duration-150 ease-in-out flex justify-center">
                         <ul className="fixed w-full max-w-md min-h-72 m-1 bg-white border border-gray-300 mt-2 rounded-lg shadow-lg">
-                            {results.map((product) => (
-                                <li key={product.id} className="flex items-center p-2 hover:bg-gray-100">
-                                    <img src={product.image.image_url} alt={product.title} className="w-12 h-12 mr-3"/>
+                            {results.map((product, index) => (
+                                <li key={index}>
                                     <Link
                                         href={route('product.view', {
                                             slug: product?.slug ?? product?.hash_id,
-                                        })} className="text-gray-800">
-                                        {product.title}
+                                        })} className="flex items-center p-2 hover:bg-gray-100 text-gray-800 w-full h-full">
+                                        <img src={product.image.image_url} alt={product.title}
+                                             className="w-12 h-12 mr-3"/>
+                                        <span>{product.title}</span>
                                     </Link>
                                 </li>
                             ))}

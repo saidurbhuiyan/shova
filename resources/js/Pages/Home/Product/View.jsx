@@ -1,7 +1,7 @@
 import {Head} from "@inertiajs/react";
 import DefaultLayout from '@/Layouts/DefaultLayout';
 import Preview from './Preview';
-import BreadCrumbs from "@/Pages/Home/Product/BreadCrumbs.jsx";
+import BreadCrumbs from "@/Components/BreadCrumbs.jsx";
 import Details from "@/Pages/Home/Product/Details.jsx";
 import {isMobile} from "@/helper.ts";
 
